@@ -1,0 +1,74 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #111;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  flex-wrap: wrap;
+}
+
+.nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav a:hover {
+  color: #60a5fa;
+}
+
+.nav a.active {
+  color: #60a5fa;
+  font-weight: 700;
+}
+
+.search input {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.auth-buttons button {
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.auth-buttons .signin {
+  background: transparent;
+  color: white;
+}
+
+.auth-buttons .signin:hover {
+  color: #60a5fa;
+}
+
+.auth-buttons .signup {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.auth-buttons .signup:hover {
+  background-color: #2563eb;
+}
