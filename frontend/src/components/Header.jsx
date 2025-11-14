@@ -14,6 +14,8 @@ const Header = () => {
         <Link className={location.pathname === "/reviews" ? "active" : ""} to="/reviews">Reviews</Link>
         <Link className={location.pathname === "/groups" ? "active" : ""} to="/groups">Groups</Link>
         <Link className={location.pathname === "/favorites" ? "active" : ""} to="/favorites">Favorites</Link>
+        <Link className={location.pathname === "/signin" ? "active" : ""} to="/signin">login testi</Link>
+        <Link className={location.pathname === "/signup" ? "active" : ""} to="/signup">signup testi</Link>
       </nav>
 
       {}
