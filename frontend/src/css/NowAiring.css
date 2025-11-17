@@ -1,0 +1,33 @@
+#nowAiring {
+  margin: 2em;
+}
+#nowAiring ul {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+}
+#nowAiring ul li {
+    width: 2em;
+}
+#nowAiring .active-page a,
+#nowAiring .active-link {
+  color: red;
+  font-weight: bold;
+}
+
+#nowAiring .movie-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  gap: 1.5em; /* space between items */
+  margin: auto;
+}
+
+#nowAiring .movie-item {
+  display: flex;
+  align-items: center;
+}
+
+#nowAiring .movie-item img {
+  margin-right: 10px;
+  border-radius: 4px;
+}

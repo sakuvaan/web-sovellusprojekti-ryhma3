@@ -6,10 +6,13 @@ import NowAiring from "./pages/NowAiring";
 import Reviews from "./pages/Reviews";
 import Groups from "./pages/Groups";
 import Favorites from "./pages/Favorites";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import { AuthProvider } from "./components/AuthContext";
 
 const App = () => {
   return (
-    <div>
+    <AuthProvider>
       <Header />
       <main style={{ padding: "2rem", textAlign: "center" }}>
         <Routes>
@@ -18,9 +21,11 @@ const App = () => {
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/groups" element={<Groups />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </main>
-    </div>
+    </AuthProvider>
   );
 };
 
