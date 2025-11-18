@@ -9,8 +9,10 @@ export function authRequired(req, res, next) {
   const token = header.split(" ")[1];
 
   try {
-    const data = jwt.verify(token, process.env.JWT_SECRET);
-    req.userId = data.userId;
+    const JWT_SECRET = process.env.JWT_SECRET || "da53db51149c361a14745577ab67caa6";
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.userId = decoded.userId;
+
     next();
   } catch (err) {
     return res.status(401).json({ message: "Invalid token" });

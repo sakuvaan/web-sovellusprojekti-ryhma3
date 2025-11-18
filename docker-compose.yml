@@ -24,6 +24,7 @@ services:
       - "5050:5000"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/web
+      - JWT_SECRET=da53db51149c361a14745577ab67caa6
     volumes:
       - ./backend:/app
       - /app/node_modules
