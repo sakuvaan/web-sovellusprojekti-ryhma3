@@ -17,8 +17,8 @@
 
 #nowAiring .movie-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 columns */
-  gap: 1.5em; /* space between items */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5em;
   margin: auto;
 }
 
