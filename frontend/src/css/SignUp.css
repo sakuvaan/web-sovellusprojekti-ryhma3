@@ -1,0 +1,31 @@
+#signUp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#signUp .signUp-form {
+    position: relative;
+}
+
+.signUp-input {
+  border-radius: 10px; 
+  text-align: center;
+}
+
+.signUp-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.signUp-form {
+  border-block-style: solid;
+  border-radius: 22px;
+  background-color: #111;
+  border-color: #111;
+  padding: 24px;
+  width: 100%;
+  max-width: 420px;
+}

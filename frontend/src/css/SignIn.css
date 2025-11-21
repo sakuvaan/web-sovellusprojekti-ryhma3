@@ -1,0 +1,31 @@
+#signIn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#signIn .signIn-form {
+    position: relative;
+}
+
+.signIn-input {
+  border-radius: 10px; 
+  text-align: center;
+}
+
+.signIn-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.signIn-form {
+  border-block-style: solid;
+  border-radius: 22px;
+  background-color: #111;
+  border-color: #111;
+  padding: 24px;
+  width: 100%;
+  max-width: 420px;
+}

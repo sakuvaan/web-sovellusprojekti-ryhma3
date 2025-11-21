@@ -1,5 +1,5 @@
-import { useState, useContext } from "react";
-import { AuthContext } from "../components/AuthContext";
+import { useState } from "react";
+import '../css/SignUp.css';
 
 const API_URL = "http://localhost:5050";
 
@@ -7,7 +7,6 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const { login } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,53 +20,45 @@ const SignUp = () => {
       const data = await res.json();
 
       if (res.ok) {
-
-        login({
-          token: data.token,
-          user: {
-            id: data.user.id,
-            email: data.user.email
-          }
-        });
-
+        localStorage.setItem("token", data.token);
         setMessage(`Account created for ${data.user.email}`);
       } else {
         setMessage(data.message || "Signup failed");
       }
-
     } catch (err) {
       setMessage(err.message);
     }
   };
 
   return (
-    <div>
-      <br /><br />
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>email: </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-
-        <div>
-          <label>pass: </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        <button type="submit">luo tili</button>
-      </form>
-
-      {message && <p>{message}</p>}
+    <div className="signUp-page">
+      <div className="signUp-form">
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Email: </label>
+            <input
+              className="signUp-input"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Password: </label>
+            <input
+              className="signUp-input"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit">Sign Up</button>
+        </form>
+        <a href="../signin">Already have an account?</a>
+        {message && <p>{message}</p>}
+      </div>
     </div>
   );
 };
