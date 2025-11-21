@@ -1,107 +1,166 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../components/AuthContext";
 import "../css/Profile.css";
 
+const API_URL = "http://localhost:5050";
+
 const Profile = () => {
-  const { id } = useParams();
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const { user } = useContext(AuthContext);
+
+  const [name, setName] = useState("");
+  const [favorites, setFavorites] = useState([]);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
-    async function fetchProfile() {
-      setLoading(true);
-      try {
-        const res = await fetch(`http://localhost:5050/api/users/${id}`);
-        if (!res.ok) throw new Error("Failed to fetch profile");
-        const data = await res.json();
-        setUser(data.user);
-      } catch (err) {
-        console.error(err);
-        setError(err.message);
+    if (!user) return;
+
+    fetch(`${API_URL}/api/favorites/me`, {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setFavorites(data))
+      .catch((err) => console.error(err));
+  }, [user]);
+
+  const handleCreate = async (e) => {
+    e.preventDefault();
+    if (!name.trim()) return;
+
+    try {
+      const res = await fetch(`${API_URL}/api/favorites`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({ name }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setFavorites((prev) => [data, ...prev]);
+        setName("");
+        setMessage("List created!");
+        setTimeout(() => setMessage(""), 3000);
+      } else {
+        setMessage(data.message || "Error creating list");
+        setTimeout(() => setMessage(""), 3000);
       }
-      setLoading(false);
+    } catch (err) {
+      setMessage(err.message);
+      setTimeout(() => setMessage(""), 3000);
     }
+  };
 
-    fetchProfile();
-  }, [id]);
+  const handleDeleteList = async (id) => {
+    if (!user) return;
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
-  if (!user) return <p>User not found</p>;
+    if (!window.confirm("Delete this list?")) return;
+
+    try {
+      const res = await fetch(`${API_URL}/api/favorites/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setFavorites((prev) => prev.filter((f) => f.id !== id));
+        setMessage("List deleted");
+        setTimeout(() => setMessage(""), 3000);
+      } else {
+        setMessage(data.message || "Error deleting list");
+        setTimeout(() => setMessage(""), 3000);
+      }
+    } catch (err) {
+      setMessage(err.message);
+      setTimeout(() => setMessage(""), 3000);
+    }
+  };
+
+  const handleCopyLink = async (shareUrl) => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setMessage("Share link copied!");
+      setTimeout(() => setMessage(""), 3000);
+    } catch (err) {
+      console.error(err);
+      setMessage("Could not copy link.");
+      setTimeout(() => setMessage(""), 3000);
+    }
+  };
+
+  if (!user) {
+    return <p>You must sign in to view your profile.</p>;
+  }
 
   return (
-    <div className="profile-container">
-      <div className="profile-header">
-        <div className="profile-info">
-          <h2>{user.email}</h2>
-          <p>Member since: {new Date(user.created_at).toLocaleDateString("en-GB")}</p>
-        </div>
-      </div>
+    <div className="profile">
+      <h1>My favorite lists</h1>
+      <p>Logged in as: {user.email}</p>
 
-      <div className="profile-section reviews-section">
-        <h3>Reviews</h3>
-        <div className="reviews-list">
-          <div className="review-item">
-            <img
-              src="https://m.media-amazon.com/images/M/MV5BN2FkMTRkNTUtYTI0NC00ZjI4LWI5MzUtMDFmOGY0NmU2OGY1XkEyXkFqcGc@._V1_.jpg"
-              alt="Movie Poster"
-              className="review-poster"
-            />
-            <div className="review-content">
-              <h4>leffan nimi</h4>
-              <p className="review-stars">★★★★☆</p>
-              <p className="review-text">
-                arvostelu tässä
-              </p>
-              <p className="review-date">2025-11-18</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <form onSubmit={handleCreate} className="profile-form">
+        <input
+          type="text"
+          placeholder="List name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="profile-input"
+        />
+        <button
+          type="submit"
+          className="fav-btn fav-btn-primary profile-create-button"
+        >
+          Create list
+        </button>
+      </form>
 
-      <div className="profile-section favorites-section">
-        <h3>Favorites</h3>
-        <div className="favorites-list">
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BN2FkMTRkNTUtYTI0NC00ZjI4LWI5MzUtMDFmOGY0NmU2OGY1XkEyXkFqcGc@._V1_.jpg"
-            alt="Movie 1"
-            className="favorite-poster"
-          />
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BN2FkMTRkNTUtYTI0NC00ZjI4LWI5MzUtMDFmOGY0NmU2OGY1XkEyXkFqcGc@._V1_.jpg"
-            alt="Movie 2"
-            className="favorite-poster"
-          />
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BN2FkMTRkNTUtYTI0NC00ZjI4LWI5MzUtMDFmOGY0NmU2OGY1XkEyXkFqcGc@._V1_.jpg"
-            alt="Movie 3"
-            className="favorite-poster"
-          />
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BN2FkMTRkNTUtYTI0NC00ZjI4LWI5MzUtMDFmOGY0NmU2OGY1XkEyXkFqcGc@._V1_.jpg"
-            alt="Movie 4"
-            className="favorite-poster"
-          />
-          <img
-            src="https://m.media-amazon.com/images/M/MV5BN2FkMTRkNTUtYTI0NC00ZjI4LWI5MzUtMDFmOGY0NmU2OGY1XkEyXkFqcGc@._V1_.jpg"
-            alt="Movie 5"
-            className="favorite-poster"
-          />
-        </div>
-      </div>
+      {message && <div className="profile-message">{message}</div>}
 
-      <div className="profile-section groups-section">
-        <h3>Groups</h3>
-        <ul>
-          <li className="group-item">
-            eka grouppi <span className="group-members">(12 members)</span>
-          </li>
-          <li className="group-item">
-            toka grouppi <span className="group-members">(5 members)</span>
-          </li>
-        </ul>
-      </div>
+      <h2>Your lists</h2>
+      {favorites.length === 0 && <p>No lists yet.</p>}
+
+      <ul className="profile-list">
+        {favorites.map((fav) => {
+          const shareUrl = `${window.location.origin}/favorites/${fav.id}`;
+
+          return (
+            <li key={fav.id} className="profile-list-item">
+              <strong>{fav.name}</strong>
+
+              {}
+              <button
+                className="fav-btn fav-btn-primary"
+                onClick={() => (window.location.href = `/favorites/${fav.id}`)}
+              >
+                Open
+              </button>
+
+              {}
+              <button
+                className="fav-btn fav-btn-secondary"
+                onClick={() => handleCopyLink(shareUrl)}
+              >
+                Share
+              </button>
+
+              {}
+              <button
+                className="fav-btn fav-btn-danger"
+                onClick={() => handleDeleteList(fav.id)}
+              >
+                Delete
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 };

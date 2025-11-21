@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 import "../css/Header.css";
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, logout } = useContext(AuthContext);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -38,7 +39,17 @@ const Header = () => {
 
             {isDropdownOpen && (
               <div className="account-dropdown">
-                <Link to={`/profiles/${user.id}`}><button className="dropdown-item">Profile</button></Link>
+
+                <button 
+                className="dropdown-item"
+                onClick={() => {
+                  setIsDropdownOpen(false);
+                  navigate("/profile");
+                }}
+                >
+                  Profile
+                </button>
+                
                 <Link to="/settings"><button className="dropdown-item">Settings</button></Link>
                 <button className="dropdown-item logout" onClick={logout}>Logout</button>
               </div>

@@ -10,7 +10,9 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
+import FavoriteDetail from "./pages/favoriteDetail";
 import { AuthProvider } from "./components/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
@@ -20,13 +22,13 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/now-airing" element={<NowAiring />} />
-          <Route path="/reviews" element={<Reviews />} />
+          <Route path="/reviews" element={<ProtectedRoute><Reviews /></ProtectedRoute>} />
           <Route path="/groups" element={<Groups />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/profiles/:id" element={<Profile />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/favorites/:id" element={<FavoriteDetail />} />
         </Routes>
       </main>
     </AuthProvider>
