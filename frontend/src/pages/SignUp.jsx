@@ -1,4 +1,5 @@
 import { useState } from "react";
+import '../css/SignUp.css';
 
 const API_URL = "http://localhost:5050";
 
@@ -30,29 +31,34 @@ const SignUp = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>email: </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>pass: </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">sisää</button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className="signUp-page">
+      <div className="signUp-form">
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Email: </label>
+            <input
+              className="signUp-input"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Password: </label>
+            <input
+              className="signUp-input"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit">Sign Up</button>
+        </form>
+        <a href="../signin">Already have an account?</a>
+        {message && <p>{message}</p>}
+      </div>
     </div>
   );
 };

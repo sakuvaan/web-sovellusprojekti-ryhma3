@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../components/AuthContext";
+import '../css/SignIn.css';
 
 const API_URL = "http://localhost:5050";
 
@@ -40,29 +41,34 @@ const SignIn = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>email: </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>pass: </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">sisää</button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className="signIn-page">
+      <div className="signIn-form">
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Email: </label>
+            <input
+              className="signIn-input"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Password: </label>
+            <input
+              className="signIn-input"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit">Sign In</button>
+        </form>
+        <a href="../signup">Not a member? Sign Up</a>
+        {message && <p>{message}</p>}
+      </div>
     </div>
   );
 };
