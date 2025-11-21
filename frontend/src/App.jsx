@@ -8,6 +8,7 @@ import Groups from "./pages/Groups";
 import Favorites from "./pages/Favorites";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import FavoriteDetail from "./pages/favoriteDetail";
 import { AuthProvider } from "./components/AuthContext";
@@ -17,7 +18,7 @@ const App = () => {
   return (
     <AuthProvider>
       <Header />
-      <main style={{ padding: "2rem", textAlign: "center" }}>
+      <main style={{ padding: "2rem" }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/now-airing" element={<NowAiring />} />

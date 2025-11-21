@@ -31,7 +31,13 @@ const SignIn = () => {
     const data = await res.json();
 
     if (res.ok) {
-      login({ email: data.user.email, token: data.token });
+      login({
+        token: data.token,
+        user: {
+          id: data.user.id,
+          email: data.user.email
+        }
+      });
 
       navigate("/");
     } else {
@@ -41,6 +47,7 @@ const SignIn = () => {
 
   return (
     <div>
+      <br /><br />
       <form onSubmit={handleSubmit}>
         <div>
           <label>email: </label>
