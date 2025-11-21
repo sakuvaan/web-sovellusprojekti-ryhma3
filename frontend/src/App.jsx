@@ -27,6 +27,7 @@ const App = () => {
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/favorites/:id" element={<FavoriteDetail />} />
         </Routes>
