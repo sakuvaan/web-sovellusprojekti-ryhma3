@@ -11,6 +11,7 @@ import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import FavoriteDetail from "./pages/favoriteDetail";
 import { AuthProvider } from "./components/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
@@ -20,7 +21,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/now-airing" element={<NowAiring />} />
-          <Route path="/reviews" element={<Reviews />} />
+          <Route path="/reviews" element={<ProtectedRoute><Reviews /></ProtectedRoute>} />
           <Route path="/groups" element={<Groups />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/signin" element={<SignIn />} />

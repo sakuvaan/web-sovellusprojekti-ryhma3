@@ -16,7 +16,7 @@ const Favorites = () => {
 
   return (
     <div className="favorites">
-      <h1>All favorite lists</h1>
+      <h1>Lists made by people</h1>
       {lists.length === 0 && <p>No lists yet.</p>}
 
       <ul className="favorites-list">
