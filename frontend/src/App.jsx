@@ -1,35 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
+import Home from "./pages/Home";
+import NowAiring from "./pages/NowAiring";
+import Reviews from "./pages/Reviews";
+import Groups from "./pages/Groups";
+import Favorites from "./pages/Favorites";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import { AuthProvider } from "./components/AuthContext";
+import Search  from "./pages/Search";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <AuthProvider>
+      <Header />
+      <main style={{ padding: "2rem", textAlign: "center" }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/now-airing" element={<NowAiring />} />
+          <Route path="/reviews" element={<Reviews />} />
+          <Route path="/groups" element={<Groups />} />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/search" element={<Search />} />
+        </Routes>
+      </main>
+    </AuthProvider>
+  );
+};
 
-export default App
+export default App;

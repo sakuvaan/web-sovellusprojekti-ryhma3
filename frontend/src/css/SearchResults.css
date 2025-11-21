@@ -1,0 +1,33 @@
+#searchResults {
+  margin: 2em;
+}
+#searchResults ul {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+}
+#searchResults ul li {
+    width: 2em;
+}
+#searchResults .active-page a,
+#searchResults .active-link {
+  color: red;
+  font-weight: bold;
+}
+
+#searchResults .movie-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  gap: 1.5em; /* space between items */
+  margin: auto;
+}
+
+#searchResults .movie-item {
+  display: flex;
+  align-items: center;
+}
+
+#searchResults .movie-item img {
+  margin-right: 10px;
+  border-radius: 4px;
+}
