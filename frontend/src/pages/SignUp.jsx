@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../components/AuthContext";
 
 const API_URL = "http://localhost:5050";
 
@@ -6,6 +7,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const { login } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,11 +21,20 @@ const SignUp = () => {
       const data = await res.json();
 
       if (res.ok) {
-        localStorage.setItem("token", data.token);
+
+        login({
+          token: data.token,
+          user: {
+            id: data.user.id,
+            email: data.user.email
+          }
+        });
+
         setMessage(`Account created for ${data.user.email}`);
       } else {
         setMessage(data.message || "Signup failed");
       }
+
     } catch (err) {
       setMessage(err.message);
     }
@@ -42,6 +53,7 @@ const SignUp = () => {
             required
           />
         </div>
+
         <div>
           <label>pass: </label>
           <input
@@ -51,8 +63,10 @@ const SignUp = () => {
             required
           />
         </div>
-        <button type="submit">sisää</button>
+
+        <button type="submit">luo tili</button>
       </form>
+
       {message && <p>{message}</p>}
     </div>
   );

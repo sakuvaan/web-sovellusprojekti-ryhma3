@@ -8,18 +8,30 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const email = localStorage.getItem("userEmail");
-    if (token && email) setUser({ email, token });
+    const id = localStorage.getItem("userId");
+
+    if (token && email && id) {
+      setUser({ id: Number(id), email, token });
+    }
   }, []);
 
   const login = (userData) => {
+
     localStorage.setItem("token", userData.token);
-    localStorage.setItem("userEmail", userData.email);
-    setUser(userData);
+    localStorage.setItem("userEmail", userData.user.email);
+    localStorage.setItem("userId", userData.user.id);
+
+    setUser({
+      id: userData.user.id,
+      email: userData.user.email,
+      token: userData.token
+    });
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userEmail");
+    localStorage.removeItem("userId");
     setUser(null);
   };
 

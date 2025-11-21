@@ -38,7 +38,7 @@ const Header = () => {
 
             {isDropdownOpen && (
               <div className="account-dropdown">
-                <button className="dropdown-item">Profile</button>
+                <Link to={`/profiles/${user.id}`}><button className="dropdown-item">Profile</button></Link>
                 <Link to="/settings"><button className="dropdown-item">Settings</button></Link>
                 <button className="dropdown-item logout" onClick={logout}>Logout</button>
               </div>
