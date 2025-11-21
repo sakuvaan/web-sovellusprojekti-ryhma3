@@ -8,6 +8,8 @@ import Groups from "./pages/Groups";
 import Favorites from "./pages/Favorites";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import Profile from "./pages/Profile";
+import FavoriteDetail from "./pages/favoriteDetail";
 import { AuthProvider } from "./components/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -24,6 +26,8 @@ const App = () => {
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/favorites/:id" element={<FavoriteDetail />} />
         </Routes>
       </main>
     </AuthProvider>

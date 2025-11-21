@@ -1,0 +1,51 @@
+.favorite-detail {
+  max-width: 900px;
+  margin: 6rem auto 4rem;
+  padding: 0 1.5rem;
+  text-align: left;
+}
+
+.favorite-detail h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.25rem;
+}
+
+.favorite-detail > p {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  color: #555;
+}
+
+.favorite-add-button {
+  margin-bottom: 1.5rem;
+}
+
+.favorite-picker {
+  border: 1px solid #ddd;
+  background: #fafafa;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+}
+
+.favorite-picker h4 {
+  margin-top: 0;
+}
+
+.favorite-picker-add-button {
+  margin-left: 0.5rem;
+}
+
+.favorite-picker-close-button {
+  margin-top: 0.75rem;
+}
+
+.favorite-remove-button {
+  margin-left: 0.5rem;
+}
+
+.favorite-btn-added {
+  background: #e0f7e0;
+  border-color: #8fd28f;
+}
