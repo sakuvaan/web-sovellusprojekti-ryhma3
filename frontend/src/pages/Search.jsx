@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import ReactPaginate from 'react-paginate'
-import '../css/MovieResults.css';
+import '../css/SearchResults.css';
 
 const Search = () => {
     const [movies, setMovies] = useState([])

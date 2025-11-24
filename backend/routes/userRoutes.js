@@ -1,9 +1,11 @@
 import express from "express";
-import { signup, signin } from "../controllers/authController.js";
+import { deleteAccount, getProfile, changePassword } from "../controllers/userController.js";
+import { authRequired } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/signup", signup);
-router.post("/signin", signin);
+router.delete("/delete", authRequired, deleteAccount);
+router.post("/change-password", authRequired, changePassword);
+router.get("/:id", getProfile);
 
 export default router;

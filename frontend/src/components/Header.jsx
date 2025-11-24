@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext } from "react"
-import { Link, useLocation } from "react-router-dom"
-import { AuthContext } from "./AuthContext"
-import "../css/Header.css"
-import { useNavigate } from 'react-router'
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "./AuthContext";
+import "../css/Header.css";
 
 const YearDropdown = ({ onYearChange }) => {
   const currentYear = new Date().getFullYear()
@@ -31,36 +30,31 @@ const YearDropdown = ({ onYearChange }) => {
 }
 
 const Header = () => {
-  const location = useLocation()
-  const { user, logout } = useContext(AuthContext)
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useContext(AuthContext);
 
-  const navigate = useNavigate()
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
+
+  const searchTextbox = document.querySelector("#search_textbox")
+  const release_year = document.querySelector("#year")
+  const include_adult_checkbox = document.querySelector("#include_adult")
 
   const handleSearch = (e) => {
     if (e.key === "Enter" && e.target.value.length > 0) {
       e.preventDefault()
-      navigate(
-        `/search?query=${e.target.value}&year=${document.querySelector(
-          "#year"
-        ).value}&include_adult=${document.querySelector("#include_adult").checked}`
-      )
+      navigate(`/search?query=${e.target.value}&year=${release_year.value}&include_adult=${include_adult_checkbox.checked}`)
     }
   }
 
   const handleYearChange = (year) => {
-    const searchValue = document.querySelector("input[type='text']").value
-    const includeAdult = document.querySelector("#include_adult").checked
-
-    if (searchValue.length > 0) {
-      navigate(`/search?query=${searchValue}&year=${year}&include_adult=${includeAdult}`)
+    if (searchTextbox.value.length > 0) {
+      navigate(`/search?query=${searchTextbox.value}&year=${year}&include_adult=${include_adult_checkbox.checked}`)
     }
-  }
-
-
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen((prev) => !prev)
   }
 
   return (
@@ -74,7 +68,7 @@ const Header = () => {
       </nav>
 
       <div className="search">
-        <input type="text" placeholder="Search..." onKeyDown={handleSearch} />
+        <input id="search_textbox" type="text" placeholder="Search..." onKeyDown={handleSearch} />
         <YearDropdown onYearChange={handleYearChange}/>
         <label htmlFor="include_adult">Show 18+ Movies</label>
         <input type="checkbox" id="include_adult" value="include_adult"/>
@@ -91,8 +85,18 @@ const Header = () => {
 
             {isDropdownOpen && (
               <div className="account-dropdown">
-                <button className="dropdown-item">Profile</button>
-                <button className="dropdown-item">Settings</button>
+
+                <button 
+                className="dropdown-item"
+                onClick={() => {
+                  setIsDropdownOpen(false);
+                  navigate("/profile");
+                }}
+                >
+                  Profile
+                </button>
+                
+                <Link to="/settings"><button className="dropdown-item">Settings</button></Link>
                 <button className="dropdown-item logout" onClick={logout}>Logout</button>
               </div>
             )}
@@ -107,7 +111,7 @@ const Header = () => {
 
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

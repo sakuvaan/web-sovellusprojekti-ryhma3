@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import ReactPaginate from 'react-paginate'
-import '../css/MovieResults.css';
+import '../css/NowAiring.css';
 
-const NowAiring = () =>  {
+const NowAiring = () =>  {//<h1 className="text-3xl font-bold">test2</h1>;
     const [movies, setMovies] = useState([])
     const [page, setPage] = useState(1)
     const [pageCount, setPageCount] = useState(0)
@@ -13,7 +13,7 @@ const NowAiring = () =>  {
                 {movies.map(movie => (
                     <div key={movie.id} className="movie-item">
                         <img
-                            src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
+                            src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`} //92,154,185,342,500,780,original
                             alt={movie.title}
                         />
                         <span>{movie.title}</span>
