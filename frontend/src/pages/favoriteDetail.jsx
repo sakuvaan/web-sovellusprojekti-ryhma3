@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import "../css/NowAiring.css";
 import "../css/FavoriteDetail.css";
 import { AuthContext } from "../components/AuthContext";
+import { Link } from "react-router-dom";
 
 const API_URL = "http://localhost:5050";
 
@@ -244,13 +245,22 @@ const FavoriteDetail = () => {
       <div className="movie-grid">
         {movieDetails.map((movie) => (
           <div key={movie.favoriteMovieId} className="movie-item">
-            {movie.poster_path && (
+            <Link to={`/reviews/${movie.id}`} className="movie-link">
+              {movie.poster_path && (
+                <img
+                  src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
+                  alt={movie.title}
+                />
+              )}
+              <span>{movie.title}</span>
+            </Link>
+            {/*{movie.poster_path && (
               <img
                 src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
                 alt={movie.title}
               />
             )}
-            <span>{movie.title}</span>
+            <span>{movie.title}</span>*/}
             {isOwner && (
               <button
                 type="button"

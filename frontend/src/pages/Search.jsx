@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import ReactPaginate from 'react-paginate'
 import '../css/SearchResults.css';
+import { Link } from "react-router-dom";
 
 const Search = () => {
     const [movies, setMovies] = useState([])
@@ -16,13 +17,15 @@ const Search = () => {
         return (
             <div className="movie-grid">
             {movies.map(movie => (
-                <div key={movie.id} className="movie-item">
+                //<div key={movie.id} className="movie-item">
+                <Link to={`/reviews/${movie.id}`} key={movie.id} className="movie-item">
                     <img
                         src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
                         alt={movie.title}
                     />
                     <span>{movie.title}</span>
-                </div>
+                </Link>
+                //</div>
             ))}
             </div>
         )
