@@ -2,7 +2,6 @@ import { useSearchParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import ReactPaginate from 'react-paginate'
 import '../css/SearchResults.css';
-
 import { Link } from "react-router-dom";
 
 const Search = () => {
