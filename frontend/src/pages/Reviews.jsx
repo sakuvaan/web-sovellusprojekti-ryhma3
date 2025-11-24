@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../components/AuthContext";
+import '../css/Reviews.css';
 
 const API_URL = "http://localhost:5050";
 
@@ -109,21 +110,22 @@ const Reviews = () => {
                             required
                         />
                         <br />
-
-                        <input
-                            type="number"
-                            value={rating}
-                            onChange={(e) => setRating(e.target.value)}
-                            placeholder="1–5"
-                            min="1"
-                            max="5"
-                            required
-                        />
+                        <div className="rating-stars">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <span
+                                    key={star}
+                                    className={`star ${star <= rating ? "filled" : ""}`}
+                                    onClick={() => setRating(star)}
+                                >
+                                    ★
+                                </span>
+                            ))}
+                        </div>
                         <br />
-
                         <button type="submit">Submit Review</button>
                     </form>
                 </div>
+
             ) : (
                 <p><strong>You must be logged in to leave a review.</strong></p>
             )}
@@ -133,25 +135,34 @@ const Reviews = () => {
 
                 {reviews.length === 0 && <p>No reviews yet.</p>}
 
-{reviews.map((r, i) => (
-    <div key={i} style={{ borderTop: "1px solid #ccc", padding: "10px 0" }}>
-        <p>
-            <strong>{r.email}</strong> — Rating: {r.rating}/5
-        </p>
-        <p>{r.text}</p>
-        <small>{new Date(r.created_at).toLocaleString()}</small>
+                {reviews.map((r, i) => (
+                    <div key={i} style={{ borderTop: "1px solid #ccc", padding: "10px 0" }}>
+                        <p>
+                            <strong>{r.email}</strong> —
+                            <span className="stars">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <span
+                                        key={star}
+                                        className={`star ${star <= r.rating ? "filled" : ""}`}
+                                    >
+                                        ★
+                                    </span>
+                                ))}
+                            </span>
+                        </p>
+                        <p>{r.text}</p>
+                        <small>{new Date(r.created_at).toLocaleString()}</small>
 
-        {/* SHOW DELETE BUTTON IF USER OWNS REVIEW */}
-        {user && r.email === user.email && (
-            <button
-                style={{ marginTop: "5px", color: "red" }}
-                onClick={() => handleDelete(r.id)}
-            >
-                Delete
-            </button>
-        )}
-    </div>
-))}
+                        {user && r.email === user.email && (
+                            <button
+                                className="delete-button"
+                                onClick={() => handleDelete(r.id)}
+                            >
+                                Delete
+                            </button>
+                        )}
+                    </div>
+                ))}
             </div>
         </div>
     );
