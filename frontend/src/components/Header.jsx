@@ -55,11 +55,11 @@ const Header = () => {
   }
 
   return (
-    <header className="header">
+    <header className="header"> 
       <nav className="nav">
         <Link className={location.pathname === "/" ? "active" : ""} to="/">Home</Link>
         <Link className={location.pathname === "/now-airing" ? "active" : ""} to="/now-airing">Now Airing</Link>
-        <Link className={location.pathname === "/reviews" ? "active" : ""} to="/reviews">Reviews</Link>
+        {/*<Link className={location.pathname === "/reviews" ? "active" : ""} to="/reviews">Reviews</Link>*/}
         <Link className={location.pathname === "/groups" ? "active" : ""} to="/groups">Groups</Link>
         <Link className={location.pathname === "/favorites" ? "active" : ""} to="/favorites">Favorites</Link>
       </nav>
