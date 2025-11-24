@@ -40,20 +40,17 @@ const Header = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
-  const searchTextbox = document.querySelector("#search_textbox")
-  const release_year = document.querySelector("#year")
-  const include_adult_checkbox = document.querySelector("#include_adult")
-
   const handleSearch = (e) => {
     if (e.key === "Enter" && e.target.value.length > 0) {
       e.preventDefault()
-      navigate(`/search?query=${e.target.value}&year=${release_year.value}&include_adult=${include_adult_checkbox.checked}`)
+      navigate(`/search?query=${e.target.value}&year=${document.querySelector("#year").value}&include_adult=${document.querySelector("#include_adult").checked}`)
     }
   }
 
   const handleYearChange = (year) => {
-    if (searchTextbox.value.length > 0) {
-      navigate(`/search?query=${searchTextbox.value}&year=${year}&include_adult=${include_adult_checkbox.checked}`)
+    let searchValue = document.querySelector("#search_textbox").value
+    if (searchValue.length > 0) {
+      navigate(`/search?query=${searchValue}&year=${year}&include_adult=${document.querySelector("#include_adult").checked}`)
     }
   }
 
