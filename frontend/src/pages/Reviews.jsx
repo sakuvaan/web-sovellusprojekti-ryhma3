@@ -25,11 +25,7 @@ const Reviews = () => {
     }, [id]);
 
     useEffect(() => {
-        fetch(`${API_URL}/api/reviews/${id}`, {
-            headers: {
-                Authorization: `Bearer ${user.token}`,
-            },
-        })
+        fetch(`${API_URL}/api/reviews/${id}`)
             .then((res) => res.json())
             .then((data) => setReviews(data))
             .catch((err) => console.error(err));
