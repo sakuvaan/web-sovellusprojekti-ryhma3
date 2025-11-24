@@ -122,3 +122,11 @@
 .logout {
   color: #ff4d4d;
 }
+
+label[for="dropdown"] {
+  margin-left: 5px;
+}
+
+label[for="include_adult"] {
+  margin-left: 5px;
+}
