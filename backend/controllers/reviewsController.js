@@ -4,9 +4,6 @@ export async function createReview(req, res) {
     const { tmdb_id, text, rating } = req.body;
     const userId = req.userId;
 
-    console.log("BODY:", req.body);
-    console.log("USER:", req.userId);
-
     if (!tmdb_id || !text || !rating) {
         return res.status(400).json({ message: "All fields are required." });
     }
@@ -62,4 +59,35 @@ export async function getReviewsForMovie(req, res) {
         res.status(500).json({ message: "Server error" });
     }
 }
+export async function deleteReview(req, res) {
+    const reviewId = req.params.id;
+    const userId = req.userId;
+
+    try {
+        const check = await pool.query(
+            "SELECT user_id FROM reviews WHERE id = $1",
+            [reviewId]
+        );
+
+        if (check.rows.length === 0) {
+            return res.status(404).json({ message: "Review not found" });
+        }
+
+        if (check.rows[0].user_id !== userId) {
+            return res.status(403).json({ message: "Not authorized to delete this review" });
+        }
+
+        await pool.query(
+            "DELETE FROM reviews WHERE id = $1",
+            [reviewId]
+        );
+
+        return res.json({ success: true });
+
+    } catch (error) {
+        console.error("deleteReview error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
 

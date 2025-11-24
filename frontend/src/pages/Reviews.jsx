@@ -66,6 +66,29 @@ const Reviews = () => {
             console.error(err);
         }
     };
+    const handleDelete = async (reviewId) => {
+        if (!confirm("Delete this review?")) return;
+
+        try {
+            const res = await fetch(`${API_URL}/api/reviews/${reviewId}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                setReviews(prev => prev.filter(r => r.id !== reviewId));
+            } else {
+                alert(data.message || "Error deleting review");
+            }
+
+        } catch (error) {
+            console.error("Delete error:", error);
+        }
+};
 
     if (!movie) return <p>Loading...</p>;
 
@@ -114,13 +137,25 @@ const Reviews = () => {
 
                 {reviews.length === 0 && <p>No reviews yet.</p>}
 
-                {reviews.map((r, i) => (
-                    <div key={i} style={{ borderTop: "1px solid #ccc", padding: "10px 0" }}>
-                        <p><strong>{r.email}</strong> — Rating: {r.rating}/5</p>
-                        <p>{r.text}</p>
-                        <small>{new Date(r.created_at).toLocaleString()}</small>
-                    </div>
-                ))}
+{reviews.map((r, i) => (
+    <div key={i} style={{ borderTop: "1px solid #ccc", padding: "10px 0" }}>
+        <p>
+            <strong>{r.email}</strong> — Rating: {r.rating}/5
+        </p>
+        <p>{r.text}</p>
+        <small>{new Date(r.created_at).toLocaleString()}</small>
+
+        {/* SHOW DELETE BUTTON IF USER OWNS REVIEW */}
+        {user && r.email === user.email && (
+            <button
+                style={{ marginTop: "5px", color: "red" }}
+                onClick={() => handleDelete(r.id)}
+            >
+                Delete
+            </button>
+        )}
+    </div>
+))}
             </div>
         </div>
     );
