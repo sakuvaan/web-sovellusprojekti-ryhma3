@@ -3,6 +3,32 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 import "../css/Header.css";
 
+const YearDropdown = ({ onYearChange }) => {
+  const currentYear = new Date().getFullYear()
+  const startYear = 1950
+
+  const years = []
+  for (let year = currentYear; year >= startYear; year--) {
+    years.push(year)
+  }
+
+  return (
+    <>
+      <label htmlFor="dropdown">Release Date: </label>
+      <select
+        id="year"
+        style={{ width: '80px' }}
+        onChange={(e) => onYearChange(e.target.value)}
+      >
+        <option key="any" value="">Any</option>
+        {years.map(year => (
+          <option key={year} value={year}>{year}</option>
+        ))}
+      </select>
+    </>
+  )
+}
+
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -13,6 +39,23 @@ const Header = () => {
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
+
+  const searchTextbox = document.querySelector("#search_textbox")
+  const release_year = document.querySelector("#year")
+  const include_adult_checkbox = document.querySelector("#include_adult")
+
+  const handleSearch = (e) => {
+    if (e.key === "Enter" && e.target.value.length > 0) {
+      e.preventDefault()
+      navigate(`/search?query=${e.target.value}&year=${release_year.value}&include_adult=${include_adult_checkbox.checked}`)
+    }
+  }
+
+  const handleYearChange = (year) => {
+    if (searchTextbox.value.length > 0) {
+      navigate(`/search?query=${searchTextbox.value}&year=${year}&include_adult=${include_adult_checkbox.checked}`)
+    }
+  }
 
   return (
     <header className="header">
@@ -25,7 +68,10 @@ const Header = () => {
       </nav>
 
       <div className="search">
-        <input type="text" placeholder="Search..." />
+        <input id="search_textbox" type="text" placeholder="Search..." onKeyDown={handleSearch} />
+        <YearDropdown onYearChange={handleYearChange}/>
+        <label htmlFor="include_adult">Show 18+ Movies</label>
+        <input type="checkbox" id="include_adult" value="include_adult"/>
       </div>
 
       <div className="auth-buttons">

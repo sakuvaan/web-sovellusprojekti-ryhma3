@@ -1,3 +1,6 @@
+h3 {
+  padding-top: 20px;
+}
 #nowAiring {
   margin: 2em;
 }
@@ -17,8 +20,8 @@
 
 #nowAiring .movie-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5em;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  gap: 1.5em; /* space between items */
   margin: auto;
 }
 

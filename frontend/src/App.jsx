@@ -11,6 +11,7 @@ import SignUp from "./pages/SignUp";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import FavoriteDetail from "./pages/favoriteDetail";
+import Search from './pages/Search'
 import { AuthProvider } from "./components/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/reviews" element={<ProtectedRoute><Reviews /></ProtectedRoute>} />
           <Route path="/groups" element={<Groups />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/search" element={<Search />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
