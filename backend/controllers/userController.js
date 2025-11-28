@@ -26,11 +26,25 @@ export async function deleteAccount(req, res) {
       return res.status(401).json({ message: "Invalid password" });
     }
 
-    await pool.query("DELETE FROM users WHERE id = $1", [userId]);
+    await pool.query("BEGIN");
+
+    await pool.query(
+      "DELETE FROM favorites WHERE user_id = $1",
+      [userId]
+    );
+
+    await pool.query(
+      "DELETE FROM users WHERE id = $1",
+      [userId]
+    );
+
+    await pool.query("COMMIT");
 
     return res.json({ message: "Account deleted successfully" });
+
   } catch (err) {
     console.error("Delete account error:", err);
+    await pool.query("ROLLBACK");
     return res.status(500).json({ message: "Server error" });
   }
 }
@@ -89,26 +103,5 @@ export async function changePassword(req, res) {
   } catch (err) {
     console.error("Change password error:", err);
     return res.status(500).json({ message: "Server error" });
-  }
-}
-
-export async function getProfile(req, res) {
-  const userId = req.params.id;
-
-  try {
-    const result = await pool.query(
-      "SELECT id, email, created_at FROM users WHERE id = $1",
-      [userId]
-    );
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const user = result.rows[0];
-    res.json({ user });
-  } catch (err) {
-    console.error("Get profile error:", err);
-    res.status(500).json({ message: "Server error" });
   }
 }

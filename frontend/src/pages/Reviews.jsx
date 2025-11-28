@@ -6,7 +6,7 @@ import '../css/Reviews.css';
 const API_URL = "http://localhost:5050";
 
 const Reviews = () => {
-    const { id } = useParams(); //movie id
+    const { id } = useParams(); // movie id
     const { user } = useContext(AuthContext);
 
     const [movie, setMovie] = useState(null);
@@ -26,7 +26,7 @@ const Reviews = () => {
     }, [id]);
 
     useEffect(() => {
-        fetch(`${API_URL}/api/reviews/${id}`)
+        fetch(`${API_URL}/api/reviews/${id}`, { credentials: "include" })
             .then((res) => res.json())
             .then((data) => setReviews(data))
             .catch((err) => console.error(err));
@@ -39,10 +39,8 @@ const Reviews = () => {
         try {
             const res = await fetch(`${API_URL}/api/reviews`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${user.token}`,
-                },
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
                 body: JSON.stringify({
                     tmdb_id: id,
                     text: reviewText,
@@ -63,15 +61,14 @@ const Reviews = () => {
             console.error(err);
         }
     };
+
     const handleDelete = async (reviewId) => {
         if (!confirm("Delete this review?")) return;
 
         try {
             const res = await fetch(`${API_URL}/api/reviews/${reviewId}`, {
                 method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
-                },
+                credentials: "include",
             });
 
             const data = await res.json();
@@ -81,11 +78,10 @@ const Reviews = () => {
             } else {
                 alert(data.message || "Error deleting review");
             }
-
         } catch (error) {
             console.error("Delete error:", error);
         }
-};
+    };
 
     if (!movie) return <p>Loading...</p>;
 
@@ -125,7 +121,6 @@ const Reviews = () => {
                         <button type="submit">Submit Review</button>
                     </form>
                 </div>
-
             ) : (
                 <p><strong>You must be logged in to leave a review.</strong></p>
             )}

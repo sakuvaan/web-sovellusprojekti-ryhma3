@@ -6,32 +6,34 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const email = localStorage.getItem("userEmail");
-    const id = localStorage.getItem("userId");
+    const checkUser = async () => {
+      try {
+        const res = await fetch(`http://localhost:5050/api/auth/me`, {
+          credentials: "include",
+        });
 
-    if (token && email && id) {
-      setUser({ id: Number(id), email, token });
-    }
+        if (res.ok) {
+          const data = await res.json();
+          setUser(data.user);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    checkUser();
   }, []);
 
   const login = (userData) => {
-
-    localStorage.setItem("token", userData.token);
-    localStorage.setItem("userEmail", userData.user.email);
-    localStorage.setItem("userId", userData.user.id);
-
-    setUser({
-      id: userData.user.id,
-      email: userData.user.email,
-      token: userData.token
-    });
+    setUser(userData);
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userId");
+  const logout = async () => {
+    await fetch("http://localhost:5050/api/auth/logout", {
+      method: "POST",
+      credentials: "include"
+    });
+
     setUser(null);
   };
 

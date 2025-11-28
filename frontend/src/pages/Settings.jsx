@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "../css/Settings.css";
 
+const API_URL = "http://localhost:5050";
+
 const Settings = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -12,21 +14,16 @@ const Settings = () => {
   const [loadingDelete, setLoadingDelete] = useState(false);
 
   async function handleChangePassword() {
-
     if (!oldPassword || !newPassword || !confirmNewPassword) {
       alert("All fields are required");
       return;
     }
 
-    const token = localStorage.getItem("token");
-
     try {
-      const res = await fetch("http://localhost:5050/api/users/change-password", {
+      const res = await fetch(`${API_URL}/api/users/change-password`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           currentPassword: oldPassword,
           newPassword: newPassword,
@@ -45,7 +42,6 @@ const Settings = () => {
       setOldPassword("");
       setNewPassword("");
       setConfirmNewPassword("");
-
     } catch (err) {
       console.error(err);
       alert("Server error.");
@@ -64,17 +60,11 @@ const Settings = () => {
     setLoadingDelete(true);
 
     try {
-      const token = localStorage.getItem("token");
-
-      const res = await fetch(`http://localhost:5050/api/users/delete`, {
+      const res = await fetch(`${API_URL}/api/users/delete`, {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          password: deletePassword,
-        }),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ password: deletePassword }),
       });
 
       const data = await res.json();
@@ -92,7 +82,6 @@ const Settings = () => {
         localStorage.removeItem("user");
         window.location.href = "/";
       }, 1000);
-
     } catch (err) {
       console.error(err);
       setDeleteError("Server error.");
@@ -105,7 +94,6 @@ const Settings = () => {
     <div className="settings-container">
       <h2>Settings</h2>
 
-      {}
       <div className="settings-section">
         <h3>Change Password</h3>
 
@@ -138,7 +126,6 @@ const Settings = () => {
         </button>
       </div>
 
-      {}
       <div className="settings-section delete-section">
         <h3>Delete Account</h3>
 

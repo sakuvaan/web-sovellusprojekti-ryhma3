@@ -1,23 +1,9 @@
-#signUp {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#signUp .signUp-form {
-    position: relative;
-}
-
-.signUp-input {
-  border-radius: 10px; 
-  text-align: center;
-}
-
 .signUp-page {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
+    min-height: 100vh;
 }
 
 .signUp-form {
@@ -28,4 +14,9 @@
   padding: 24px;
   width: 100%;
   max-width: 420px;
+}
+
+.signUp-input {
+  border-radius: 10px; 
+  text-align: center;
 }

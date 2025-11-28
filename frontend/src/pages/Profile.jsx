@@ -15,9 +15,8 @@ const Profile = () => {
     if (!user) return;
 
     fetch(`${API_URL}/api/favorites/me`, {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
+      method: "GET",
+      credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => setFavorites(data))
@@ -31,10 +30,8 @@ const Profile = () => {
     try {
       const res = await fetch(`${API_URL}/api/favorites`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ name }),
       });
 
@@ -57,15 +54,12 @@ const Profile = () => {
 
   const handleDeleteList = async (id) => {
     if (!user) return;
-
     if (!window.confirm("Delete this list?")) return;
 
     try {
       const res = await fetch(`${API_URL}/api/favorites/${id}`, {
         method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
+        credentials: "include",
       });
 
       const data = await res.json();
@@ -84,21 +78,7 @@ const Profile = () => {
     }
   };
 
-  const handleCopyLink = async (shareUrl) => {
-    try {
-      await navigator.clipboard.writeText(shareUrl);
-      setMessage("Share link copied!");
-      setTimeout(() => setMessage(""), 3000);
-    } catch (err) {
-      console.error(err);
-      setMessage("Could not copy link.");
-      setTimeout(() => setMessage(""), 3000);
-    }
-  };
-
-  if (!user) {
-    return <p>You must sign in to view your profile.</p>;
-  }
+  if (!user) return <p>You must sign in to view your profile.</p>;
 
   return (
     <div className="profile">
@@ -134,7 +114,6 @@ const Profile = () => {
             <li key={fav.id} className="profile-list-item">
               <strong>{fav.name}</strong>
 
-              {}
               <button
                 className="fav-btn fav-btn-primary"
                 onClick={() => (window.location.href = `/favorites/${fav.id}`)}
@@ -142,15 +121,17 @@ const Profile = () => {
                 Open
               </button>
 
-              {}
               <button
                 className="fav-btn fav-btn-secondary"
-                onClick={() => handleCopyLink(shareUrl)}
+                onClick={() => {
+                  navigator.clipboard.writeText(shareUrl);
+                  setMessage("Share link copied!");
+                  setTimeout(() => setMessage(""), 3000);
+                }}
               >
                 Share
               </button>
 
-              {}
               <button
                 className="fav-btn fav-btn-danger"
                 onClick={() => handleDeleteList(fav.id)}

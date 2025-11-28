@@ -1,9 +1,8 @@
 import { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import "../css/NowAiring.css";
 import "../css/FavoriteDetail.css";
 import { AuthContext } from "../components/AuthContext";
-import { Link } from "react-router-dom";
 
 const API_URL = "http://localhost:5050";
 
@@ -30,7 +29,7 @@ const FavoriteDetail = () => {
   const [pickerError, setPickerError] = useState("");
 
   useEffect(() => {
-    fetch(`${API_URL}/api/favorites/${id}`)
+    fetch(`${API_URL}/api/favorites/${id}`, { credentials: "include" })
       .then(async (res) => {
         const data = await res.json();
         if (!res.ok) {
@@ -89,9 +88,7 @@ const FavoriteDetail = () => {
         `${API_URL}/api/favorites/movies/${favoriteMovieId}`,
         {
           method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
+          credentials: "include",
         }
       );
 
@@ -143,10 +140,8 @@ const FavoriteDetail = () => {
     try {
       const res = await fetch(`${API_URL}/api/favorites/${id}/movies`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ tmdb_id: movie.id }),
       });
 
@@ -186,7 +181,6 @@ const FavoriteDetail = () => {
         </button>
       )}
 
-      {}
       {showPicker && (
         <div className="favorite-picker">
           <h4>Now Playing movies</h4>
@@ -198,9 +192,7 @@ const FavoriteDetail = () => {
 
           <div className="movie-grid">
             {nowPlaying.map((movie) => {
-              const alreadyInList = movies.some(
-                (m) => m.tmdb_id === movie.id
-              );
+              const alreadyInList = movies.some((m) => m.tmdb_id === movie.id);
 
               return (
                 <div key={movie.id} className="movie-item">
@@ -254,13 +246,6 @@ const FavoriteDetail = () => {
               )}
               <span>{movie.title}</span>
             </Link>
-            {/*{movie.poster_path && (
-              <img
-                src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
-                alt={movie.title}
-              />
-            )}
-            <span>{movie.title}</span>*/}
             {isOwner && (
               <button
                 type="button"
