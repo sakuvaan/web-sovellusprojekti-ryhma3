@@ -21,6 +21,7 @@
 }
 
 .signUp-form {
+  margin: 80px;
   border-block-style: solid;
   border-radius: 22px;
   background-color: #111;

@@ -4,7 +4,12 @@ import cors from "cors";
 import authRoutes from "../routes/authRoutes.js";
 import userRoutes from "../routes/userRoutes.js";
 import favoriteRoutes from "../routes/favoriteRoutes.js";
+<<<<<<< Updated upstream
 
+=======
+import reviewsRoutes from "../routes/reviewsRoutes.js";
+import groupRoutes from "../routes/groupRoutes.js";
+>>>>>>> Stashed changes
 
 const app = express();
 
@@ -15,6 +20,12 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/favorites", favoriteRoutes);
 
+<<<<<<< Updated upstream
+=======
+app.use("/api/reviews", reviewsRoutes);
+app.use("/api/groups", groupRoutes)
+
+>>>>>>> Stashed changes
 app.get("/api/health", (req, res) => res.json({ status: "ok" }));
 
 app.listen(5000, () =>
