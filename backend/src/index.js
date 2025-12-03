@@ -5,7 +5,12 @@ import authRoutes from "../routes/authRoutes.js";
 import userRoutes from "../routes/userRoutes.js";
 import favoriteRoutes from "../routes/favoriteRoutes.js";
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+import reviewsRoutes from "../routes/reviewsRoutes.js";
+import groupRoutes from "../routes/groupRoutes.js";
+>>>>>>> Stashed changes
 =======
 import reviewsRoutes from "../routes/reviewsRoutes.js";
 import groupRoutes from "../routes/groupRoutes.js";
