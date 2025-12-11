@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../components/AuthContext";
 import '../css/SignIn.css';
 
-const API_URL = "http://localhost:5050";
+const API_URL = "https://backend-umci.onrender.com";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");

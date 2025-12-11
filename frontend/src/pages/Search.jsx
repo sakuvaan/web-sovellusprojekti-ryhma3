@@ -33,7 +33,7 @@ const Search = () => {
 
     useEffect(() => {
         async function fetchMovies() {
-            fetch(`http://localhost:5050/api/search?query=${query}&page=${page}&year=${year}&include_adult=${include_adult}`,{
+            fetch(`https://backend-umci.onrender.com/api/search?query=${query}&page=${page}&year=${year}&include_adult=${include_adult}`,{
         })
         .then(response => response.json())
         .then(json => {

@@ -4,7 +4,7 @@ import "../css/NowAiring.css";
 import "../css/FavoriteDetail.css";
 import { AuthContext } from "../components/AuthContext";
 
-const API_URL = "http://localhost:5050";
+const API_URL = "https://backend-umci.onrender.com";
 
 const TMDB_OPTIONS = {
   headers: {

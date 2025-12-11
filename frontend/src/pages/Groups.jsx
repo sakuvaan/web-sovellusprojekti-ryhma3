@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const API_URL = "http://localhost:5050";
+const API_URL = "https://backend-umci.onrender.com";
 
 const Groups = () => {
   const [lists, setLists] = useState([]);

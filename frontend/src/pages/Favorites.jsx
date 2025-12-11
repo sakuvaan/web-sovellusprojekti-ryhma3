@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/Favorites.css";
 
-const API_URL = "http://localhost:5050";
+const API_URL = "https://backend-umci.onrender.com";
 
 const Favorites = () => {
   const [lists, setLists] = useState([]);

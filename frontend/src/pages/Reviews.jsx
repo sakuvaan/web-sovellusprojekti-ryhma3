@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { AuthContext } from "../components/AuthContext";
 import '../css/Reviews.css';
 
-const API_URL = "http://localhost:5050";
+const API_URL = "https://backend-umci.onrender.com";
 
 const Reviews = () => {
     const { id } = useParams(); // movie id

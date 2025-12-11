@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../components/AuthContext";
 import "../css/Profile.css";
 
-const API_URL = "http://localhost:5050";
+const API_URL = "https://backend-umci.onrender.com";
 
 const Profile = () => {
   const { user } = useContext(AuthContext);

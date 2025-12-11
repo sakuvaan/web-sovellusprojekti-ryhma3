@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../css/Settings.css";
 
-const API_URL = "http://localhost:5050";
+const API_URL = "https://backend-umci.onrender.com";
 
 const Settings = () => {
   const [oldPassword, setOldPassword] = useState("");
