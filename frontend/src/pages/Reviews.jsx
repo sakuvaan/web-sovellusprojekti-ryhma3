@@ -14,6 +14,10 @@ const Reviews = () => {
     const [reviewText, setReviewText] = useState("");
     const [rating, setRating] = useState("");
 
+    const averageRating = reviews.length
+        ? (reviews.reduce((sum, r) => sum + Number(r.rating), 0) / reviews.length).toFixed(1)
+        : null;
+
     useEffect(() => {
         fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, {
             headers: {
@@ -93,8 +97,22 @@ const Reviews = () => {
                 src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
                 alt={movie.title}
             />
+            {averageRating && (
+                <div style={{ margin: "1rem 0", fontSize: "1.2rem" }}>
+                    <strong>Average User Rating: </strong>
+                    <span className="stars">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <span
+                                key={star}
+                                className={`star ${star <= Math.round(averageRating) ? "filled" : ""}`}
+                            >
+                                ★
+                            </span>
+                        ))}
+                    </span>
+                </div>
+            )}
             <p>{movie.overview}</p>
-
             {user ? (
                 <div style={{ marginTop: "2rem" }}>
                     <h2>Leave a Review</h2>
