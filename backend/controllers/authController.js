@@ -45,13 +45,6 @@ export async function signup(req, res) {
 
     sendAuthCookie(res, token);
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 24 * 60 * 60 * 1000,
-    });
-
     return res.json({ user });
   } catch (err) {
     console.error("Signup error:", err);
@@ -83,13 +76,6 @@ export async function signin(req, res) {
 
     sendAuthCookie(res, token);
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 24 * 60 * 60 * 1000,
-    });
-
     return res.json({ user });
   } catch (err) {
     console.error("Signin error:", err);
@@ -100,8 +86,8 @@ export async function signin(req, res) {
 export function logout(req, res) {
   res.clearCookie("token", {
     httpOnly: true,
-    secure: true,
-    sameSite: "strict"
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "none",
   });
   res.json({ message: "Logged out" });
 }
