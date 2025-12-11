@@ -33,13 +33,7 @@ const SignIn = () => {
     const data = await res.json();
 
     if (res.ok) {
-      login({
-        token: data.token,
-        user: {
-          id: data.user.id,
-          email: data.user.email
-        }
-      });
+      login(data.user);
       navigate("/");
     } else {
       setMessage(data.message || "Login failed");
