@@ -7,7 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "da53db51149c361a14745577ab67caa6";
 function sendAuthCookie(res, token) {
   res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
     sameSite: "none",
     maxAge: 24 * 60 * 60 * 1000,
   });
