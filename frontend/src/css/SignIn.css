@@ -1,23 +1,9 @@
-#signIn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#signIn .signIn-form {
-    position: relative;
-}
-
-.signIn-input {
-  border-radius: 10px; 
-  text-align: center;
-}
-
 .signIn-page {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
+    min-height: 100vh;
 }
 
 .signIn-form {
@@ -28,4 +14,9 @@
   padding: 24px;
   width: 100%;
   max-width: 420px;
+}
+
+.signIn-input {
+  border-radius: 10px; 
+  text-align: center;
 }

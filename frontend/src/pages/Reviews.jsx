@@ -6,13 +6,17 @@ import '../css/Reviews.css';
 const API_URL = "http://localhost:5050";
 
 const Reviews = () => {
-    const { id } = useParams(); //movie id
+    const { id } = useParams(); // movie id
     const { user } = useContext(AuthContext);
 
     const [movie, setMovie] = useState(null);
     const [reviews, setReviews] = useState([]);
     const [reviewText, setReviewText] = useState("");
     const [rating, setRating] = useState("");
+
+    const averageRating = reviews.length
+        ? (reviews.reduce((sum, r) => sum + Number(r.rating), 0) / reviews.length).toFixed(1)
+        : null;
 
     useEffect(() => {
         fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, {
@@ -26,7 +30,7 @@ const Reviews = () => {
     }, [id]);
 
     useEffect(() => {
-        fetch(`${API_URL}/api/reviews/${id}`)
+        fetch(`${API_URL}/api/reviews/${id}`, { credentials: "include" })
             .then((res) => res.json())
             .then((data) => setReviews(data))
             .catch((err) => console.error(err));
@@ -39,10 +43,8 @@ const Reviews = () => {
         try {
             const res = await fetch(`${API_URL}/api/reviews`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${user.token}`,
-                },
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
                 body: JSON.stringify({
                     tmdb_id: id,
                     text: reviewText,
@@ -63,15 +65,14 @@ const Reviews = () => {
             console.error(err);
         }
     };
+
     const handleDelete = async (reviewId) => {
         if (!confirm("Delete this review?")) return;
 
         try {
             const res = await fetch(`${API_URL}/api/reviews/${reviewId}`, {
                 method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
-                },
+                credentials: "include",
             });
 
             const data = await res.json();
@@ -81,11 +82,10 @@ const Reviews = () => {
             } else {
                 alert(data.message || "Error deleting review");
             }
-
         } catch (error) {
             console.error("Delete error:", error);
         }
-};
+    };
 
     if (!movie) return <p>Loading...</p>;
 
@@ -97,8 +97,22 @@ const Reviews = () => {
                 src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
                 alt={movie.title}
             />
+            {averageRating && (
+                <div style={{ margin: "1rem 0", fontSize: "1.2rem" }}>
+                    <strong>Average User Rating: </strong>
+                    <span className="stars">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <span
+                                key={star}
+                                className={`star ${star <= Math.round(averageRating) ? "filled" : ""}`}
+                            >
+                                ★
+                            </span>
+                        ))}
+                    </span>
+                </div>
+            )}
             <p>{movie.overview}</p>
-
             {user ? (
                 <div style={{ marginTop: "2rem" }}>
                     <h2>Leave a Review</h2>
@@ -125,7 +139,6 @@ const Reviews = () => {
                         <button type="submit">Submit Review</button>
                     </form>
                 </div>
-
             ) : (
                 <p><strong>You must be logged in to leave a review.</strong></p>
             )}

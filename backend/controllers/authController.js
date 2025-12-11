@@ -4,6 +4,15 @@ import { pool } from "../config/db.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "da53db51149c361a14745577ab67caa6";
 
+function sendAuthCookie(res, token) {
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+    maxAge: 24 * 60 * 60 * 1000
+  });
+}
+
 export async function signup(req, res) {
   const { email, password } = req.body;
 
@@ -34,7 +43,16 @@ export async function signup(req, res) {
     const user = result.rows[0];
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "1d" });
 
-    res.json({ user, token });
+    sendAuthCookie(res, token);
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    return res.json({ user });
   } catch (err) {
     console.error("Signup error:", err);
     res.status(500).json({ message: "Server error" });
@@ -63,9 +81,48 @@ export async function signin(req, res) {
 
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "1d" });
 
-    res.json({ user, token });
+    sendAuthCookie(res, token);
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    return res.json({ user });
   } catch (err) {
     console.error("Signin error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
+export function logout(req, res) {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict"
+  });
+  res.json({ message: "Logged out" });
+}
+
+export async function getMe(req, res) {
+  const userId = req.userId;
+
+  try {
+    const result = await pool.query(
+      "SELECT id, email, created_at FROM users WHERE id = $1",
+      [userId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const user = result.rows[0];
+    res.json({ user });
+  } catch (err) {
+    console.error("Get me error:", err);
     res.status(500).json({ message: "Server error" });
   }
 }

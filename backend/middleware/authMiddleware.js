@@ -1,12 +1,9 @@
 import jwt from "jsonwebtoken";
 
 export function authRequired(req, res, next) {
-  const header = req.headers.authorization;
+  const token = req.cookies?.token;
 
-  if (!header || !header.startsWith("Bearer "))
-    return res.status(401).json({ message: "Missing token" });
-
-  const token = header.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "Missing token" });
 
   try {
     const JWT_SECRET = process.env.JWT_SECRET || "da53db51149c361a14745577ab67caa6";

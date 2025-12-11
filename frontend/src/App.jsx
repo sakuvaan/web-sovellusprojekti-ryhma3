@@ -10,7 +10,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
-import FavoriteDetail from "./pages/favoriteDetail";
+import FavoriteDetail from "./pages/FavoriteDetail";
 import Search from './pages/Search'
 import { AuthProvider } from "./components/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";

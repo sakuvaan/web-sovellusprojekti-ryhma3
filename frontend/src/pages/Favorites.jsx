@@ -8,7 +8,9 @@ const Favorites = () => {
   const [lists, setLists] = useState([]);
 
   useEffect(() => {
-    fetch(`${API_URL}/api/favorites`)
+    fetch(`${API_URL}/api/favorites`, {
+      credentials: "include",
+    })
       .then((res) => res.json())
       .then((data) => setLists(data))
       .catch((err) => console.error(err));
