@@ -92,7 +92,7 @@ const Home = () => {
             />
             <div className="review-content">
               <h3>
-                <a href={`/reviews/${r.tmdb_id}`}>{r.movieTitle}</a>
+                <Link to={`/reviews/${r.tmdb_id}`}>{r.movieTitle}</Link>
               </h3>
               <div className="stars">
                 {[1,2,3,4,5].map(star => (
