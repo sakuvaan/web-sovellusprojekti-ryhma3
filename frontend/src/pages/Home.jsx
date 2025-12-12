@@ -112,15 +112,26 @@ const Home = () => {
           <h2>Most Popular Groups</h2>
         </div>
 
-        <div className="sidebar-section">
-          <h2>Discover Favorites</h2>
-          {loadingFavorites ? <p>Loading favorites...</p> : favoriteLists.map(f => (
+      <div className="sidebar-section">
+        <h2>Discover Favorites</h2>
+
+        {loadingFavorites ? (
+          <p>Loading favorites...</p>
+        ) : (
+          favoriteLists.map(f => (
             <div key={f.id} className="favorite-card">
-              <p className="favorite-name">{f.name}</p>
-              <small className="favorite-author">by {f.owner_email}</small>
+              <div className="favorite-info">
+                <p className="favorite-name">{f.name}</p>
+                <small className="favorite-author">by {f.owner_email}</small>
+              </div>
+
+              <Link to={`/favorites/${f.id}`}>
+                <button className="favorite-open-btn">Open</button>
+              </Link>
             </div>
-          ))}
-        </div>
+          ))
+        )}
+      </div>
       </div>
     </div>
   );

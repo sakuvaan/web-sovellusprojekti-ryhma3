@@ -3,7 +3,6 @@
   grid-template-columns: 3fr 1.5fr;
   gap: 30px;
   padding: 40px;
-  margin-top: 20px;
 }
 
 .recent-reviews h2,
@@ -91,6 +90,38 @@
 .favorite-author {
   font-size: 0.9rem;
   color: #aaa;
+}
+
+.favorite-card {
+  background-color: #2a2a2a;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.favorite-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.favorite-open-btn {
+  background: #3b82f6;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.favorite-open-btn:hover {
+  background: #2563eb;
 }
 
 @media (max-width: 900px) {

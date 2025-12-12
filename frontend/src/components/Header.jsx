@@ -35,10 +35,15 @@ const Header = () => {
   const { user, logout } = useContext(AuthContext);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen((prev) => !prev);
+  }
 
   const handleSearch = (e) => {
     if (e.key === "Enter" && e.target.value.length > 0) {
@@ -55,57 +60,48 @@ const Header = () => {
   }
 
   return (
-    <header className="header"> 
-      <nav className="nav">
-        <Link className={location.pathname === "/" ? "active" : ""} to="/">Home</Link>
-        <Link className={location.pathname === "/now-airing" ? "active" : ""} to="/now-airing">Now Airing</Link>
-        {/*<Link className={location.pathname === "/reviews" ? "active" : ""} to="/reviews">Reviews</Link>*/}
-        <Link className={location.pathname === "/groups" ? "active" : ""} to="/groups">Groups</Link>
-        <Link className={location.pathname === "/favorites" ? "active" : ""} to="/favorites">Favorites</Link>
-      </nav>
-
-      <div className="search">
-        <input id="search_textbox" type="text" placeholder="Search..." onKeyDown={handleSearch} />
-        <YearDropdown onYearChange={handleYearChange}/>
-        <label htmlFor="include_adult">Show 18+ Movies</label>
-        <input type="checkbox" id="include_adult" value="include_adult"/>
+    <header className="header">
+      <div className="logo-nav">
+        <button className="hamburger-btn" onClick={toggleMobileMenu}>
+          ☰
+        </button>
+        <nav className={`nav ${isMobileMenuOpen ? "open" : ""}`}>
+          <Link className={location.pathname === "/" ? "active" : ""} to="/">Home</Link>
+          <Link className={location.pathname === "/now-airing" ? "active" : ""} to="/now-airing">Now Airing</Link>
+          <Link className={location.pathname === "/groups" ? "active" : ""} to="/groups">Groups</Link>
+          <Link className={location.pathname === "/favorites" ? "active" : ""} to="/favorites">Favorites</Link>
+        </nav>
       </div>
 
-      <div className="auth-buttons">
+      <div className={`header-right ${isMobileMenuOpen ? "open" : ""}`}>
+        <div className="search">
+          <input id="search_textbox" type="text" placeholder="Search..." onKeyDown={handleSearch} />
+          <YearDropdown onYearChange={handleYearChange}/>
+          <label htmlFor="include_adult">Show 18+ Movies</label>
+          <input type="checkbox" id="include_adult" value="include_adult"/>
+        </div>
 
-        {user ? (
-          <div className="account-wrapper">
-
-            <button className="account-btn" onClick={toggleDropdown}>
-              Account ▾
-            </button>
-
-            {isDropdownOpen && (
-              <div className="account-dropdown">
-
-                <button 
-                className="dropdown-item"
-                onClick={() => {
-                  setIsDropdownOpen(false);
-                  navigate("/profile");
-                }}
-                >
-                  Profile
-                </button>
-                
-                <Link to="/settings"><button className="dropdown-item">Settings</button></Link>
-                <button className="dropdown-item logout" onClick={logout}>Logout</button>
-              </div>
-            )}
-
-          </div>
-        ) : (
-          <>
-            <Link to="/signin"><button className="signin">Sign in</button></Link>
-            <Link to="/signup"><button className="signup">Sign up</button></Link>
-          </>
-        )}
-
+        <div className="auth-buttons">
+          {user ? (
+            <div className="account-wrapper">
+              <button className="account-btn" onClick={toggleDropdown}>
+                Account ▾
+              </button>
+              {isDropdownOpen && (
+                <div className="account-dropdown">
+                  <button className="dropdown-item" onClick={() => { setIsDropdownOpen(false); navigate("/profile"); }}>Profile</button>
+                  <Link to="/settings"><button className="dropdown-item">Settings</button></Link>
+                  <button className="dropdown-item logout" onClick={logout}>Logout</button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <Link to="/signin"><button className="signin">Sign in</button></Link>
+              <Link to="/signup"><button className="signup">Sign up</button></Link>
+            </>
+          )}
+        </div>
       </div>
     </header>
   );
