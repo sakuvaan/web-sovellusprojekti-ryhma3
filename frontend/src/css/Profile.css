@@ -110,6 +110,32 @@
   font-size: 1.05rem;
 }
 
-.profile-create-button {
+@media (prefers-color-scheme: dark) {
+  .fav-btn {
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    background: #333;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+  }
 
+  .fav-btn:hover:not(:disabled) {
+    background: #333;
+    border-color: #999;
+    transform: translateY(-1px);
+  }
+
+  .profile-list-item {
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #1f1f1f;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/Home.css";
 
-const API_URL = "https://backend-umci.onrender.com";
+const API_URL = "http://localhost:5050";
 const TMDB_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3NWMyOWYwYmZkYjNkOWE3OTgxZTliODBjNjZmNDNhOCIsIm5iZiI6MTc2MjkzNjQ1OS4yMTI5OTk4LCJzdWIiOiI2OTE0NDY4Yjg4MzY4NWI1NzVhMGJkNGIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.LKen2F9MBf8zSHRSHF4VXZsHlrSl7xmkkxEMsp4GABY";
 const TMDB_IMG = "https://image.tmdb.org/t/p/w200";
 
@@ -112,15 +112,26 @@ const Home = () => {
           <h2>Most Popular Groups</h2>
         </div>
 
-        <div className="sidebar-section">
-          <h2>Discover Favorites</h2>
-          {loadingFavorites ? <p>Loading favorites...</p> : favoriteLists.map(f => (
+      <div className="sidebar-section">
+        <h2>Discover Favorites</h2>
+
+        {loadingFavorites ? (
+          <p>Loading favorites...</p>
+        ) : (
+          favoriteLists.map(f => (
             <div key={f.id} className="favorite-card">
-              <p className="favorite-name">{f.name}</p>
-              <small className="favorite-author">by {f.owner_email}</small>
+              <div className="favorite-info">
+                <p className="favorite-name">{f.name}</p>
+                <small className="favorite-author">by {f.owner_email}</small>
+              </div>
+
+              <Link to={`/favorites/${f.id}`}>
+                <button className="favorite-open-btn">Open</button>
+              </Link>
             </div>
-          ))}
-        </div>
+          ))
+        )}
+      </div>
       </div>
     </div>
   );
