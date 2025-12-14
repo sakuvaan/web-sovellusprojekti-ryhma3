@@ -129,3 +129,18 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (prefers-color-scheme: light) {
+  .review-card,
+  .group-card,
+  .favorite-card,
+  .sidebar-section {
+    color: #fff;
+  }
+
+  .review-meta,
+  .group-members,
+  .favorite-author {
+    color: #969696;
+  }
+}
