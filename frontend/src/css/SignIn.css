@@ -20,3 +20,25 @@
   border-radius: 10px; 
   text-align: center;
 }
+
+@media (prefers-color-scheme: light) {
+  .signIn-form {
+    color: #111;
+    background-color: #f4f4f4;
+    border-color: #ddd;
+  }
+
+  .signIn-form label {
+    color: #111;
+  }
+
+  .signIn-input {
+    color: #111;
+    background-color: #fff;
+    border: 1px solid #ccc;
+  }
+
+  .signIn-input::placeholder {
+    color: #777;
+  }
+}

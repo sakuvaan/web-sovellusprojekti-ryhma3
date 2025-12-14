@@ -34,6 +34,11 @@ export async function deleteAccount(req, res) {
     );
 
     await pool.query(
+      "DELETE FROM reviews WHERE user_id = $1",
+      [userId]
+    );
+
+    await pool.query(
       "DELETE FROM users WHERE id = $1",
       [userId]
     );

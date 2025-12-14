@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import "../css/NowAiring.css";
 import "../css/FavoriteDetail.css";
@@ -28,6 +28,37 @@ const FavoriteDetail = () => {
   const [pickerLoading, setPickerLoading] = useState(false);
   const [pickerError, setPickerError] = useState("");
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchLoading, setSearchLoading] = useState(false);  
+
+  const searchRef = useRef(null);
+
+  const searchMovies = async (query) => {
+    if (!query || query.length < 2) {
+      setSearchResults([]);
+      return;
+    }
+
+    setSearchLoading(true);
+
+    try {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
+          query
+        )}&language=en-US`,
+        TMDB_OPTIONS
+      );
+
+      const data = await res.json();
+      setSearchResults(data.results || []);
+    } catch (err) {
+      console.error("Search error:", err);
+    } finally {
+      setSearchLoading(false);
+    }
+  };
+  
   useEffect(() => {
     fetch(`${API_URL}/api/favorites/${id}`, { credentials: "include" })
       .then(async (res) => {
@@ -43,6 +74,31 @@ const FavoriteDetail = () => {
       })
       .catch((err) => setError(err.message));
   }, [id]);
+
+  useEffect(() => {
+    if (!searchQuery || searchQuery.length < 2) {
+      setSearchResults([]);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      searchMovies(searchQuery);
+    }, 400);
+
+    return () => clearTimeout(timeout);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setSearchResults([]);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     if (!movies || movies.length === 0) {
@@ -149,6 +205,9 @@ const FavoriteDetail = () => {
 
       if (res.ok) {
         setMovies((prev) => [...prev, data]);
+
+        setSearchQuery("");
+        setSearchResults([]);
       } else {
         if (data.message === "Movie already in this list") {
           alert("This movie is already in your list.");
@@ -181,6 +240,45 @@ const FavoriteDetail = () => {
         </button>
       )}
 
+      {isOwner && (
+      <div className="favorite-search" ref={searchRef}>
+        <input
+          type="text"
+          placeholder="Search any movie..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+
+        {searchLoading && <p>Searching...</p>}
+
+        {!searchLoading && searchResults.length > 0 && (
+          <div className="favorite-search-dropdown">
+            {searchResults.slice(0, 6).map((movie) => {
+              const alreadyInList = movies.some(
+                (m) => m.tmdb_id === movie.id
+              );
+
+              return (
+                <div key={movie.id} className="search-result-item">
+                  <span>{movie.title}</span>
+                  <button
+                    type="button"
+                    disabled={alreadyInList}
+                    onClick={() => handleAddMovie(movie)}
+                    className={
+                      "fav-btn fav-btn-primary" +
+                      (alreadyInList ? " favorite-btn-added" : "")
+                    }
+                  >
+                    {alreadyInList ? "Added" : "Add"}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+      )}
       {showPicker && (
         <div className="favorite-picker">
           <h4>Now Playing movies</h4>

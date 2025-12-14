@@ -15,9 +15,6 @@ const SignIn = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const userEmail = localStorage.getItem("userEmail");
-    if (token && userEmail) {
-      setMessage(`Logged in as ${userEmail}`);
-    }
   }, []);
 
   const handleSubmit = async (e) => {
