@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../components/AuthContext";
 import "../css/Profile.css";
 
@@ -114,12 +115,9 @@ const Profile = () => {
             <li key={fav.id} className="profile-list-item">
               <strong>{fav.name}</strong>
 
-              <button
-                className="fav-btn fav-btn-primary"
-                onClick={() => (window.location.href = `/favorites/${fav.id}`)}
-              >
-                Open
-              </button>
+              <Link to={`/favorites/${fav.id}`}>
+                <button className="fav-btn fav-btn-primary">Open</button>
+              </Link>
 
               <button
                 className="fav-btn fav-btn-secondary"
