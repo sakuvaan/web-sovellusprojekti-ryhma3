@@ -32,3 +32,27 @@ export async function getLatestReviews(req, res) {
     });
   }
 }
+
+export async function getMostPopularGroups(req, res) {
+  try {
+    const result = await pool.query(
+      `
+      SELECT 
+        g.id,
+        g.name,
+        COUNT(gm.user_id)::int AS members
+      FROM groups g
+      JOIN group_members gm ON gm.group_id = g.id
+      GROUP BY g.id, g.name
+      ORDER BY members DESC
+      LIMIT 5
+      `
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error("getMostPopularGroups error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+

@@ -1,0 +1,228 @@
+.group-page {
+  padding: 40px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.group-title {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.group-owner {
+  margin-bottom: 25px;
+  color: var(--text-secondary, #aaa);
+}
+
+.group-members {
+  margin-bottom: 40px;
+}
+
+.group-members ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0;
+}
+
+.group-members li {
+  padding: 6px 0;
+}
+
+.group-movies h3 {
+  margin-bottom: 15px;
+}
+
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.member-card {
+  background-color: #2a2a2a;
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 70px;
+}
+
+.member-email {
+  font-weight: bold;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.member-role {
+  font-size: 0.85rem;
+  color: #ccc;
+  margin-bottom: 6px;
+}
+
+.remove-member-btn {
+  background-color: #e74c3c;
+  border: none;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.remove-member-btn:hover {
+  background-color: #c0392b;
+}
+
+.group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.group-header-buttons button {
+  margin-left: 10px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.join-group-btn {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.join-group-btn:hover {
+  background-color: #2563eb;
+}
+
+.leave-group-btn {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.leave-group-btn:hover {
+  background-color: #d97706;
+}
+
+.delete-group-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.delete-group-btn:hover {
+  background-color: #c0392b;
+}
+
+.join-group-btn.pending {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.join-requests-dropdown {
+  position: absolute;
+  background: #1f1f1f;
+  border: 1px solid #333;
+  padding: 8px;
+  width: 250px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.join-request-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.join-request-item button {
+  margin-left: 4px;
+}
+
+.accept-btn {
+  color: white;
+  background-color: green;
+  border: none;
+  padding: 4px 8px;
+  margin-left: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.reject-btn {
+  color: white;
+  background-color: red;
+  border: none;
+  padding: 4px 8px;
+  margin-left: 4px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.movie-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+}
+
+.movie-banner img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.movie-title {
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+.movie-search {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.movie-search input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #1e1e1e;
+  border: 1px solid #333;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-dropdown li {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.search-dropdown li:hover {
+  background-color: #eee;
+}
