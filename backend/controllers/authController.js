@@ -52,7 +52,7 @@ export async function signup(req, res) {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    return res.json({ user });
+    return res.status(201).json({ user });
   } catch (err) {
     console.error("Signup error:", err);
     res.status(500).json({ message: "Server error" });
