@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import NowAiring from "./pages/NowAiring";
 import Reviews from "./pages/Reviews";
 import Groups from "./pages/Groups";
+import GroupPage from "./pages/groupPage";
 import Favorites from "./pages/Favorites";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/now-airing" element={<NowAiring />} />
           <Route path="/reviews/:id" element={<Reviews />} />
           <Route path="/groups" element={<Groups />} />
+          <Route path="/groups/:groupId" element={<ProtectedRoute><GroupPage /></ProtectedRoute>} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/search" element={<Search />} />
           <Route path="/signin" element={<SignIn />} />
