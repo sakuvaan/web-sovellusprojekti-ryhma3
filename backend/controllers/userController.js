@@ -29,10 +29,45 @@ export async function deleteAccount(req, res) {
     await pool.query("BEGIN");
 
     await pool.query(
+      `
+      DELETE FROM group_join_requests
+      WHERE group_id IN (
+        SELECT id FROM groups WHERE owner_id = $1
+      )
+      `,
+      [userId]
+    );
+
+    await pool.query(
+      `
+      DELETE FROM group_members
+      WHERE group_id IN (
+        SELECT id FROM groups WHERE owner_id = $1
+      )
+      `,
+      [userId]
+    );
+
+    await pool.query(
+      "DELETE FROM groups WHERE owner_id = $1",
+      [userId]
+    );
+
+    await pool.query(
+      `
+      DELETE FROM favorite_movies
+      WHERE favorite_id IN (
+        SELECT id FROM favorites WHERE user_id = $1
+      )
+      `,
+      [userId]
+    );
+
+    await pool.query(
       "DELETE FROM favorites WHERE user_id = $1",
       [userId]
     );
-  
+
     await pool.query(
       "DELETE FROM reviews WHERE user_id = $1",
       [userId]
@@ -48,8 +83,8 @@ export async function deleteAccount(req, res) {
     return res.json({ message: "Account deleted successfully" });
 
   } catch (err) {
-    console.error("Delete account error:", err);
     await pool.query("ROLLBACK");
+    console.error("Delete account error:", err);
     return res.status(500).json({ message: "Server error" });
   }
 }
