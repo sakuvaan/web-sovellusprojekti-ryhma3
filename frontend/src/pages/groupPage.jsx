@@ -21,7 +21,7 @@ const GroupPage = () => {
   const fetchData = async () => {
     try {
       const groupsRes = await fetch(`${API_URL}/api/groups`, {
-        headers: { Authorization: `Bearer ${user.token}` },
+        credentials: "include",
       });
 
       let foundGroup = null;
@@ -34,7 +34,7 @@ const GroupPage = () => {
       }
 
       const membersRes = await fetch(`${API_URL}/api/groups/${groupId}/members`, {
-        headers: { Authorization: `Bearer ${user.token}` },
+        credentials: "include",
       });
 
       if (!membersRes.ok) {
@@ -51,7 +51,7 @@ const GroupPage = () => {
 
       if (user && foundGroup && String(user.id) === String(foundGroup.owner_id)) {
         const requestsRes = await fetch(`${API_URL}/api/groups/${groupId}/join-requests`, {
-          headers: { Authorization: `Bearer ${user.token}` },
+          credentials: "include",
         });
 
         if (requestsRes.ok) {
@@ -71,7 +71,48 @@ const GroupPage = () => {
   return (
     <div style={{ margin: 60 }}>
       <h2>Group Details</h2>
-      <h3>{group ? group.name : `Group ${groupId}`}</h3>
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <h3 style={{ margin: 0 }}>
+          {group ? group.name : `Group ${groupId}`}
+        </h3>
+
+        {String(user?.id) === String(group?.owner_id) && (
+          <button
+            onClick={async () => {
+              if (!confirm(`Delete group "${group.name}" permanently?`)) return;
+
+              try {
+                const res = await fetch(`${API_URL}/api/groups/${groupId}`, {
+                  method: "DELETE",
+                  credentials: "include",
+                });
+
+                if (!res.ok) {
+                  const text = await res.text();
+                  console.error("Delete group error:", res.status, text);
+                  alert("Failed to delete group.");
+                } else {
+                  alert("Group deleted successfully.");
+                  window.location.href = "/groups";
+                }
+              } catch (err) {
+                console.error("Fetch error:", err);
+                alert("Failed to delete group: " + err.message);
+              }
+            }}
+            style={{
+              background: "#cc0000",
+              color: "white",
+              border: "none",
+              padding: "6px 10px",
+              cursor: "pointer",
+              borderRadius: 4,
+            }}
+          >
+            Delete Group
+          </button>
+        )}
+      </div>
       {group && <p>Owner ID: {group.owner_id}</p>}
 
       <h4>Members</h4>
@@ -92,8 +133,8 @@ const GroupPage = () => {
                           method: "DELETE",
                           headers: {
                             "Content-Type": "application/json",
-                            Authorization: `Bearer ${user.token}`,
                           },
+                          credentials: "include",
                           body: JSON.stringify({ memberId: m.user_id }),
                         });
 
@@ -124,8 +165,8 @@ const GroupPage = () => {
                           method: "DELETE",
                           headers: {
                             "Content-Type": "application/json",
-                            Authorization: `Bearer ${user.token}`,
                           },
+                          credentials: "include",
                         });
 
                         if (!res.ok) {
@@ -170,8 +211,8 @@ const GroupPage = () => {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${user.token}`,
                   },
+                  credentials: "include",
                   body: JSON.stringify({ userId: user.id }),
                 });
 
@@ -215,8 +256,8 @@ const GroupPage = () => {
                             method: "PUT",
                             headers: {
                               "Content-Type": "application/json",
-                              Authorization: `Bearer ${user.token}`,
                             },
+                            credentials: "include",
                           });
 
                           if (!res.ok) {
@@ -244,8 +285,8 @@ const GroupPage = () => {
                             method: "PUT",
                             headers: {
                               "Content-Type": "application/json",
-                              Authorization: `Bearer ${user.token}`,
                             },
+                            credentials: "include",
                           });
 
                           if (!res.ok) {

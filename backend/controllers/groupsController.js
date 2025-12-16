@@ -248,3 +248,37 @@ export async function removeMember(req, res) {
     res.status(500).json({ message: "Server error" });
   }
 }
+
+export async function deleteGroup(req, res) {
+  const groupId = req.params.groupId;
+  const userId = req.userId;
+
+  try {
+    const groupRes = await pool.query(
+      "SELECT owner_id FROM groups WHERE id = $1",
+      [groupId]
+    );
+
+    if (groupRes.rows.length === 0) {
+      return res.status(404).json({ message: "Group not found" });
+    }
+
+    if (groupRes.rows[0].owner_id !== userId) {
+      return res.status(403).json({ message: "Only the owner can delete the group" });
+    }
+
+    await pool.query("BEGIN");
+
+    await pool.query("DELETE FROM group_join_requests WHERE group_id = $1", [groupId]);
+    await pool.query("DELETE FROM group_members WHERE group_id = $1", [groupId]);
+    await pool.query("DELETE FROM groups WHERE id = $1", [groupId]);
+
+    await pool.query("COMMIT");
+
+    res.json({ message: "Group deleted successfully" });
+  } catch (err) {
+    await pool.query("ROLLBACK");
+    console.error("deleteGroup error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+}

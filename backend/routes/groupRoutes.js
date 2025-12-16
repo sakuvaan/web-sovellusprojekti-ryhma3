@@ -10,7 +10,8 @@ import {
     getPendingJoinRequests,
     rejectJoinRequest,
     leaveGroup,
-    removeMember
+    removeMember,
+    deleteGroup
 } from "../controllers/groupsController.js";
 
 const router = express.Router();
@@ -25,5 +26,6 @@ router.delete("/:groupId/members/leave", authRequired, leaveGroup);
 router.delete("/:groupId/members/:memberId", authRequired, removeMember);
 router.put("/join-requests/:requestId/accept", authRequired, acceptJoinRequest);
 router.put("/join-requests/:requestId/reject", authRequired, rejectJoinRequest);
+router.delete("/:groupId", authRequired, deleteGroup);
 
 export default router;

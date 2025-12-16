@@ -20,9 +20,7 @@ const Groups = () => {
     try {
       const response = await fetch(`${API_URL}/api/groups`, {
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
+        credentials: "include",
       });
 
       if (!response.ok) {
@@ -52,9 +50,9 @@ const Groups = () => {
       const response = await fetch(`${API_URL}/api/groups`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "application/json"
         },
+        credentials: "include",
         body: JSON.stringify({ name: groupName }),
       });
 
