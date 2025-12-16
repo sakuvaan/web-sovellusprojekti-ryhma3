@@ -6,6 +6,7 @@ import userRoutes from "../routes/userRoutes.js";
 import favoriteRoutes from "../routes/favoriteRoutes.js";
 
 import reviewsRoutes from "../routes/reviewsRoutes.js";
+import groupRoutes from "../routes/groupRoutes.js";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/favorites", favoriteRoutes);
 
 app.use("/api/reviews", reviewsRoutes);
+app.use("/api/groups", groupRoutes);
 
 app.get("/api/health", (req, res) => res.json({ status: "ok" }));
 
