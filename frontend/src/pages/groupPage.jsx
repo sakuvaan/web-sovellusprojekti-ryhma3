@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../components/AuthContext";
 
 const API_URL = "https://backend-umci.onrender.com";
@@ -12,6 +12,7 @@ const GroupPage = () => {
   const [joinRequested, setJoinRequested] = useState(false);
   const [requestInProgress, setRequestInProgress] = useState(false);
   const [pendingRequests, setPendingRequests] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user) return;
@@ -93,7 +94,7 @@ const GroupPage = () => {
                   alert("Failed to delete group.");
                 } else {
                   alert("Group deleted successfully.");
-                  window.location.href = "/groups";
+                  navigate("/groups");
                 }
               } catch (err) {
                 console.error("Fetch error:", err);
@@ -175,7 +176,7 @@ const GroupPage = () => {
                           alert("Failed to leave group.");
                         } else {
                           alert("You have left the group.");
-                          window.location.href = "/groups";
+                          navigate("/groups");
                         }
                       } catch (err) {
                         console.error("Fetch error:", err);
