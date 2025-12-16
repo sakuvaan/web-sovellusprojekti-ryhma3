@@ -11,7 +11,7 @@ import homeRoutes from "../routes/homeRoutes.js";
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: "https://web-sovellusprojekti-ryhma3.onrender.com",
   credentials: true
 }));
 
