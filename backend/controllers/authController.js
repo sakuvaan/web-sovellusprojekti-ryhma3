@@ -45,7 +45,7 @@ export async function signup(req, res) {
 
     sendAuthCookie(res, token);
 
-    return res.json({ user });
+    return res.status(201).json({ user });
   } catch (err) {
     console.error("Signup error:", err);
     res.status(500).json({ message: "Server error" });

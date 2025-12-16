@@ -13,6 +13,9 @@ const Home = () => {
   const [favoriteLists, setFavoriteLists] = useState([]);
   const [loadingFavorites, setLoadingFavorites] = useState(true);
 
+  const [popularGroups, setPopularGroups] = useState([]);
+  const [loadingPopular, setLoadingPopular] = useState(true);
+
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -76,8 +79,21 @@ const Home = () => {
       }
     };
 
+    const fetchPopularGroups = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/home/popular`);
+        const data = await res.json();
+        setPopularGroups(data);
+      } catch (err) {
+        console.error("Popular groups fetch error:", err);
+      } finally {
+        setLoadingPopular(false);
+      }
+    };
+
     fetchReviews();
     fetchFavorites();
+    fetchPopularGroups();
   }, []);
 
   return (
@@ -108,9 +124,28 @@ const Home = () => {
       </div>
 
       <div className="sidebar">
-        <div className="sidebar-section">
-          <h2>Most Popular Groups</h2>
-        </div>
+      <div className="sidebar-section">
+        <h2>Most Popular Groups</h2>
+
+        {loadingPopular ? (
+          <p>Loading groups...</p>
+        ) : (
+          popularGroups.map(group => (
+            <div key={group.id} className="favorite-card">
+              <div className="favorite-info">
+                <p className="favorite-name">{group.name}</p>
+                <small className="favorite-author">
+                  {group.members} members
+                </small>
+              </div>
+
+              <Link to={`/groups/${group.id}`}>
+                <button className="favorite-open-btn">Open</button>
+              </Link>
+            </div>
+          ))
+        )}
+      </div>
 
       <div className="sidebar-section">
         <h2>Discover Favorites</h2>
