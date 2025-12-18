@@ -1,6 +1,6 @@
 ## Features from the checklist
 
-Features from 1-9 and 11-15 from the checklist are done. Only 10th feature (group page customization) is missing. Optional (15th) feature is password changing.
+Features 1-9 and 11-15 from the checklist are done. Only 10th feature (group page customization) is missing. Optional (15th) feature is password changing.
 
 ## REST API Documentation
 
