@@ -7,6 +7,14 @@ The project is built with a **React frontend**, a **Node.js + Express backend**,
 This project was done as a group project for the following course (OAMK):
 - `Web-ohjelmoinnin sovellusprojekti (syksy 2025, TVT24SPO)`
 
+## Application demo
+
+Link: [web-sovellusprojekti-ryhma3.onrender.com](https://web-sovellusprojekti-ryhma3.onrender.com/)
+
+Note that Render shuts down the application after 15 minutes of inactivity, so it might take some time for the application to start again.
+
+Also, free databases are deleted by Render after 30 days. This database will be deleted in January 2026.
+
 ## Group Members
 
 Specific areas that each group member focused on:
